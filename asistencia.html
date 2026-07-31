@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosistema Digital de Soluciones Educativas | CECYTE</title>
+    
+    <!-- Archivos CSS -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Scripts de Terceros -->
+    <script src="js/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Bar de Navegación iOS translucida -->
+<nav class="ios-navbar">
+  <div class="ios-nav-container">
+    <a href="index.html" class="ios-brand">Mi Sistema</a>
+
+    <div class="ios-nav-actions">
+      <!-- Menú Desplegable (Dropdown) -->
+      <div class="ios-dropdown">
+        <button class="ios-dropdown-btn" aria-label="Abrir menú de navegación">
+          Menú <span class="ios-dropdown-arrow">▾</span>
+        </button>
+        <div class="ios-dropdown-menu">
+          <a href="index.html" class="ios-dropdown-item">
+            <span class="ios-dropdown-icon">🏠</span> Inicio
+          </a>
+          <a href="asistencia.html" class="ios-dropdown-item">
+            <span class="ios-dropdown-icon">📋</span> Control de Asistencia
+          </a>
+        </div>
+      </div>
+
+      <!-- Botón de Modo Oscuro/Claro -->
+      <button class="ios-theme-btn" id="theme-toggle" aria-label="Cambiar tema">
+        🌙
+      </button>
+    </div>
+  </div>
+</nav>
+
+    <!-- Header / Hero Section -->
+    <header class="ios-header">
+        <div class="ios-hero-card">
+            <div>
+                <span class="ios-hero-badge">iniciodigital.net</span>
+                <h1 class="ios-hero-title">Herramientas para Docentes</h1>
+                <p class="ios-hero-description">
+                    Plataforma tecnológica integral diseñada para unificar herramientas docentes y evaluación pedagógica en un solo entorno interactivo.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="ios-main">
+        
+        <!-- Acciones Globales de Respaldo -->
+        <div class="flex-between" style="margin-bottom: 16px;">
+            <div></div>
+            <div class="flex-gap">
+                <button id="backup-export-btn" class="ios-btn ios-btn-success">
+                    <i class="fa-solid fa-file-shield"></i> Respaldar
+                </button>
+                <button id="backup-import-btn" class="ios-btn ios-btn-warning">
+                    <i class="fa-solid fa-file-import"></i> Restaurar
+                </button>
+                <input type="file" id="backup-file-input" style="display: none;" accept=".json">
+            </div>
+        </div>
+
+        <!-- Alerta de Faltas Críticas -->
+        <section class="ios-card">
+            <div class="flex-between" style="margin-bottom: 10px;">
+                <h2 class="ios-card-title" style="margin:0;">
+                    <i class="fa-solid fa-bell" style="color: #FF3B30;"></i> Estudiantes con Más de 2 Faltas
+                </h2>
+                <span id="critical-absences-count" class="status-badge badge-f">0 en riesgo</span>
+            </div>
+            <div class="ios-table-wrap">
+                <table class="ios-table">
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Grupo</th>
+                            <th style="text-align: center;">Faltas</th>
+                            <th style="text-align: center;">% Asist.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="critical-absences-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Layout Principal -->
+        <div class="ios-layout-grid">
+            
+            <!-- PANEL IZQUIERDO: CONFIGURACIÓN -->
+            <article class="ios-card">
+                <h2 class="ios-card-title">
+                    <i class="fa-solid fa-users" style="color: var(--apple-blue);"></i> Gestión de Grupos
+                </h2>
+                
+                <input id="group-name" type="text" placeholder="Carrera (Ej. Soporte Técnico)" class="ios-input">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <input id="group-semester" type="text" placeholder="Semestre (4to)" class="ios-input">
+                    <input id="group-shift" type="text" placeholder="Grupo (B)" class="ios-input">
+                </div>
+                <input id="group-subject" type="text" placeholder="Materia / Submódulo" class="ios-input">
+                <textarea id="students-input" rows="5" placeholder="Estudiantes (uno por línea):&#10;1, Perez Ana&#10;2, Torres Luis" class="ios-textarea"></textarea>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+                    <button id="save-group-btn" class="ios-btn">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
+                    <button id="delete-group-btn" class="ios-btn ios-btn-danger">
+                        <i class="fa-solid fa-trash"></i> Borrar
+                    </button>
+                </div>
+
+                <hr style="border: none; border-top: 0.5px solid var(--apple-border); margin: 16px 0;">
+
+                <h2 class="ios-card-title">
+                    <i class="fa-solid fa-clock" style="color: var(--apple-blue);"></i> Datos de Clase
+                </h2>
+                
+                <label style="font-size: 11px; color: var(--apple-text-secondary);">Grupo Activo</label>
+                <select id="group-select" class="ios-select"></select>
+
+                <label style="font-size: 11px; color: var(--apple-text-secondary);">Fecha</label>
+                <input id="session-date" type="date" class="ios-input">
+
+                <label style="font-size: 11px; color: var(--apple-text-secondary);">Bloque de Horario</label>
+                <select id="session-block" class="ios-select">
+                    <option value="07:30 - 08:20">07:30 a 08:20</option>
+                    <option value="08:20 - 09:10">08:20 a 09:10</option>
+                    <option value="09:10 - 10:00">09:10 a 10:00</option>
+                    <option value="10:30 - 11:20">10:30 a 11:20</option>
+                    <option value="11:20 - 12:10">11:20 a 12:10</option>
+                    <option value="12:10 - 13:00">12:10 a 13:00</option>
+                    <option value="13:00 - 13:50">13:00 a 13:50</option>
+                    <option value="13:50 - 14:40">13:50 a 14:40</option>
+                    <option value="14:40 - 15:30">14:40 a 15:30</option>
+                </select>
+            </article>
+
+            <!-- PANEL DERECHO: MATRIZ DE ASISTENCIA -->
+            <article class="ios-card">
+                <div class="flex-between" style="margin-bottom: 12px;">
+                    <h2 class="ios-card-title" style="margin:0;">
+                        <i class="fa-solid fa-grid-2" style="color: var(--apple-blue);"></i> Registro Matriz
+                    </h2>
+                    <div class="flex-gap">
+                        <button id="mark-all-p" class="ios-btn ios-btn-success" style="padding: 6px 10px; font-size: 11px;">Todos: A</button>
+                        <button id="mark-all-a" class="ios-btn ios-btn-danger" style="padding: 6px 10px; font-size: 11px;">Todos: F</button>
+                    </div>
+                </div>
+
+                <div id="attendance-empty" style="text-align: center; padding: 40px; color: var(--apple-text-secondary); font-size: 13px;">
+                    Seleccione un grupo en el panel izquierdo para comenzar.
+                </div>
+
+                <div id="attendance-grid-wrap" style="display: none;">
+                    <div id="attendance-grid" class="attendance-grid"></div>
+                </div>
+
+                <div class="flex-between" style="margin-top: 16px; padding-top: 12px; border-top: 0.5px solid var(--apple-border);">
+                    <div style="font-size: 11px; color: var(--apple-text-secondary);">
+                        A: Asistencia | F: Falta | J: Justificado | R: Retardo
+                    </div>
+                    <button id="save-session-btn" class="ios-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> GUARDAR CLASE
+                    </button>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- HISTORIAL Y ESTADÍSTICAS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+            
+            <article class="ios-card">
+                <div class="flex-between" style="margin-bottom: 12px;">
+                    <h2 class="ios-card-title" style="margin:0;"><i class="fa-solid fa-history"></i> Historial de Clases</h2>
+                    <div class="flex-gap">
+                        <button id="clear-history-btn" class="ios-btn ios-btn-danger" style="font-size: 10px; padding: 4px 8px;">Limpiar</button>
+                        <button id="export-csv-btn" class="ios-btn ios-btn-secondary" style="font-size: 10px; padding: 4px 8px;">Exportar CSV</button>
+                    </div>
+                </div>
+                <div class="ios-table-wrap">
+                    <table class="ios-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Bloque</th>
+                                <th style="text-align: center;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="ios-card">
+                <h2 class="ios-card-title"><i class="fa-solid fa-chart-bar"></i> Acumulados de Asistencia</h2>
+                <div class="ios-table-wrap">
+                    <table class="ios-table">
+                        <thead>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th style="text-align: center;">A</th>
+                                <th style="text-align: center;">F</th>
+                                <th style="text-align: center;">%</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-body"></tbody>
+                    </table>
+                </div>
+            </article>
+
+        </div>
+
+    </main>
+
+    <!-- Pie de Página Institucional -->
+    <footer class="ios-footer">
+        <p><strong>Colegio de Estudios Científicos y Tecnológicos del Estado de Puebla</strong></p>
+        <p style="margin-top: 4px; opacity: 0.7;">Julian Sadak Vergara Cruz | Portal Educativo</p>
+    </footer>
+
+    <script src="js/theme.js"></script>
+
+    <!-- LÓGICA DEL MÓDULO -->
+    <script>
+        /* 1. LÓGICA DE PASE DE LISTA */
+        const STORAGE_KEY = 'cecyte_pase_lista_v1';
+        
+        const STATUS_CONFIG = {
+            A: { label: 'Asistencia', bgClass: 'status-a', badgeClass: 'badge-a' },
+            F: { label: 'Falta', bgClass: 'status-f', badgeClass: 'badge-f' },
+            J: { label: 'Justificado', bgClass: 'status-j', badgeClass: 'badge-j' },
+            R: { label: 'Retardo', bgClass: 'status-r', badgeClass: 'badge-r' }
+        };
+        const STATUS_KEYS = Object.keys(STATUS_CONFIG);
+
+        const state = { groups: [], sessions: [], currentAttendance: {} };
+
+        const el = {
+            groupName: document.getElementById('group-name'),
+            groupSemester: document.getElementById('group-semester'),
+            groupShift: document.getElementById('group-shift'),
+            groupSubject: document.getElementById('group-subject'),
+            studentsInput: document.getElementById('students-input'),
+            saveGroupBtn: document.getElementById('save-group-btn'),
+            deleteGroupBtn: document.getElementById('delete-group-btn'),
+            groupSelect: document.getElementById('group-select'),
+            sessionDate: document.getElementById('session-date'),
+            sessionBlock: document.getElementById('session-block'),
+            attendanceEmpty: document.getElementById('attendance-empty'),
+            attendanceGridWrap: document.getElementById('attendance-grid-wrap'),
+            attendanceGrid: document.getElementById('attendance-grid'),
+            saveSessionBtn: document.getElementById('save-session-btn'),
+            markAllP: document.getElementById('mark-all-p'),
+            markAllA: document.getElementById('mark-all-a'),
+            clearHistoryBtn: document.getElementById('clear-history-btn'),
+            historyBody: document.getElementById('history-body'),
+            summaryBody: document.getElementById('summary-body'),
+            criticalAbsencesBody: document.getElementById('critical-absences-body'),
+            criticalAbsencesCount: document.getElementById('critical-absences-count'),
+            exportCsvBtn: document.getElementById('export-csv-btn'),
+            exportBackupBtn: document.getElementById('backup-export-btn'),
+            importBackupBtn: document.getElementById('backup-import-btn'),
+            backupFileInput: document.getElementById('backup-file-input')
+        };
+
+        const uid = () => `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+        function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+        function loadState() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+            try {
+                const parsed = JSON.parse(raw);
+                state.groups = Array.isArray(parsed.groups) ? parsed.groups : [];
+                state.sessions = Array.isArray(parsed.sessions) ? parsed.sessions : [];
+            } catch (e) { console.error(e); }
+        }
+
+        function parseStudents(rawText) {
+            return rawText.split('\n').map(l => l.trim()).filter(Boolean).map((line, idx) => {
+                const [first, ...rest] = line.split(',');
+                if (rest.length === 0) return { id: uid(), number: idx + 1, name: first.trim() };
+                const num = parseInt(first.trim());
+                return { id: uid(), number: isNaN(num) ? idx + 1 : num, name: rest.join(',').trim() };
+            }).sort((a,b) => a.number - b.number);
+        }
+
+        function buildGroupLabel(g) { return `${g.career || g.name} (${[g.semester, g.group].filter(Boolean).join(' ')})`; }
+
+        function renderGroupOptions() {
+            el.groupSelect.innerHTML = '<option value="">-- Seleccionar Grupo --</option>';
+            state.groups.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.id;
+                opt.textContent = buildGroupLabel(g);
+                el.groupSelect.appendChild(opt);
+            });
+        }
+
+        function renderAttendanceGrid() {
+            const groupId = el.groupSelect.value;
+            const group = state.groups.find(g => g.id === groupId);
+            el.attendanceGrid.innerHTML = '';
+
+            if (!group || group.students.length === 0) {
+                el.attendanceGridWrap.style.display = 'none';
+                el.attendanceEmpty.style.display = 'block';
+                return;
+            }
+
+            group.students.forEach(student => {
+                if (!state.currentAttendance[student.id]) state.currentAttendance[student.id] = 'A';
+                const currentStatus = state.currentAttendance[student.id];
+                const conf = STATUS_CONFIG[currentStatus];
+
+                const card = document.createElement('div');
+                card.id = `card-${student.id}`;
+                card.className = `student-card ${conf.bgClass}`;
+                card.onclick = () => {
+                    const nextIndex = (STATUS_KEYS.indexOf(state.currentAttendance[student.id]) + 1) % STATUS_KEYS.length;
+                    const nextStatus = STATUS_KEYS[nextIndex];
+                    state.currentAttendance[student.id] = nextStatus;
+                    updateCardStyle(student.id, nextStatus);
+                };
+
+                card.innerHTML = `
+                    <div class="flex-between">
+                        <span style="font-size:10px; opacity:0.6;">#${student.number}</span>
+                        <span id="badge-${student.id}" class="status-badge ${conf.badgeClass}">${currentStatus}</span>
+                    </div>
+                    <div style="font-size:11px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${student.name}</div>
+                `;
+                el.attendanceGrid.appendChild(card);
+            });
+
+            el.attendanceEmpty.style.display = 'none';
+            el.attendanceGridWrap.style.display = 'block';
+        }
+
+        function updateCardStyle(studentId, status) {
+            const card = document.getElementById(`card-${studentId}`);
+            const badge = document.getElementById(`badge-${studentId}`);
+            if (!card || !badge) return;
+
+            card.className = `student-card ${STATUS_CONFIG[status].bgClass}`;
+            badge.className = `status-badge ${STATUS_CONFIG[status].badgeClass}`;
+            badge.textContent = status;
+        }
+
+        function refreshViews() {
+            renderAttendanceGrid();
+            renderHistory();
+            renderSummary();
+            renderCriticalAbsences();
+        }
+
+        function saveSession() {
+            const groupId = el.groupSelect.value;
+            if (!groupId || !el.sessionDate.value) return alert('Seleccione grupo y fecha.');
+
+            const statusByStudent = {};
+            const group = state.groups.find(g => g.id === groupId);
+            group.students.forEach(s => {
+                statusByStudent[s.id] = state.currentAttendance[s.id] || 'A';
+            });
+
+            state.sessions.push({
+                id: uid(),
+                groupId,
+                date: el.sessionDate.value,
+                block: el.sessionBlock.value,
+                statusByStudent
+            });
+
+            saveState();
+            alert('¡Clase guardada exitosamente!');
+            refreshViews();
+        }
+
+        function renderHistory() {
+            el.historyBody.innerHTML = '';
+            const groupId = el.groupSelect.value;
+            const groupSessions = state.sessions.filter(s => s.groupId === groupId);
+
+            if (groupSessions.length === 0) {
+                el.historyBody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:10px;">Sin historial.</td></tr>';
+                return;
+            }
+
+            groupSessions.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${s.date}</td>
+                    <td>${s.block}</td>
+                    <td style="text-align:center;">
+                        <button onclick="deleteSession('${s.id}')" class="ios-btn ios-btn-danger" style="padding:2px 6px; font-size:10px;">Borrar</button>
+                    </td>
+                `;
+                el.historyBody.appendChild(tr);
+            });
+        }
+
+        window.deleteSession = function(id) {
+            state.sessions = state.sessions.filter(s => s.id !== id);
+            saveState();
+            refreshViews();
+        };
+
+        function renderSummary() {
+            el.summaryBody.innerHTML = '';
+            const groupId = el.groupSelect.value;
+            const group = state.groups.find(g => g.id === groupId);
+            if (!group) return;
+
+            const groupSessions = state.sessions.filter(s => s.groupId === groupId);
+
+            group.students.forEach(student => {
+                let a = 0, f = 0;
+                groupSessions.forEach(s => {
+                    const res = s.statusByStudent?.[student.id] || 'A';
+                    if (res === 'A') a++;
+                    if (res === 'F') f++;
+                });
+
+                const total = groupSessions.length || 1;
+                const pct = Math.round((a / total) * 100);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${student.name}</td>
+                    <td style="text-align:center; font-weight:bold; color:var(--status-a-border);">${a}</td>
+                    <td style="text-align:center; font-weight:bold; color:var(--status-f-border);">${f}</td>
+                    <td style="text-align:center; font-weight:bold;">${pct}%</td>
+                `;
+                el.summaryBody.appendChild(tr);
+            });
+        }
+
+        function renderCriticalAbsences() {
+            el.criticalAbsencesBody.innerHTML = '';
+            let count = 0;
+
+            const groupId = el.groupSelect.value;
+            const group = state.groups.find(g => g.id === groupId);
+            if (!group) return;
+
+            const groupSessions = state.sessions.filter(s => s.groupId === groupId);
+
+            group.students.forEach(student => {
+                let f = 0;
+                groupSessions.forEach(s => {
+                    if (s.statusByStudent?.[student.id] === 'F') f++;
+                });
+
+                if (f > 2) {
+                    count++;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${student.name}</td>
+                        <td>${buildGroupLabel(group)}</td>
+                        <td style="text-align:center; font-weight:bold; color:var(--status-f-border);">${f}</td>
+                        <td style="text-align:center;">Riesgo</td>
+                    `;
+                    el.criticalAbsencesBody.appendChild(tr);
+                }
+            });
+
+            el.criticalAbsencesCount.textContent = `${count} en riesgo`;
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            renderGroupOptions();
+            el.sessionDate.value = new Date().toISOString().split('T')[0];
+
+            el.saveGroupBtn.onclick = () => {
+                const career = el.groupName.value.trim();
+                const students = parseStudents(el.studentsInput.value);
+                if (!career || students.length === 0) return alert('Complete los campos');
+
+                const newGroup = { id: uid(), career, semester: el.groupSemester.value, group: el.groupShift.value, students };
+                state.groups.push(newGroup);
+                saveState();
+                renderGroupOptions();
+                el.groupSelect.value = newGroup.id;
+                refreshViews();
+            };
+
+            el.groupSelect.onchange = () => {
+                state.currentAttendance = {};
+                refreshViews();
+            };
+
+            el.markAllP.onclick = () => {
+                const group = state.groups.find(g => g.id === el.groupSelect.value);
+                if (!group) return;
+                group.students.forEach(s => {
+                    state.currentAttendance[s.id] = 'A';
+                    updateCardStyle(s.id, 'A');
+                });
+            };
+
+            el.markAllA.onclick = () => {
+                const group = state.groups.find(g => g.id === el.groupSelect.value);
+                if (!group) return;
+                group.students.forEach(s => {
+                    state.currentAttendance[s.id] = 'F';
+                    updateCardStyle(s.id, 'F');
+                });
+            };
+
+            el.saveSessionBtn.onclick = saveSession;
+        });
+    </script>
+</body>
+</html>

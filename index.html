@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ProfeKit | Plataforma de Soluciones Educativas</title>
+    
+    <!-- Hoja de Estilos iOS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Carga Local de FontAwesome -->
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+<body>
+
+    <!-- Bar de Navegación iOS translucida -->
+<nav class="ios-navbar">
+  <div class="ios-nav-container">
+    <a href="index.html" class="ios-brand">ProfeKit - Plataforma de Soluciones Educativas</a>
+
+    <div class="ios-nav-actions">
+      <!-- Menú Desplegable (Dropdown) -->
+      <div class="ios-dropdown">
+        <button class="ios-dropdown-btn" aria-label="Abrir menú de navegación">
+          Menú <span class="ios-dropdown-arrow">▾</span>
+        </button>
+        <div class="ios-dropdown-menu">
+          <a href="index.html" class="ios-dropdown-item">
+            <span class="ios-dropdown-icon">🏠</span> Inicio
+          </a>
+          <a href="asistencia.html" class="ios-dropdown-item">
+            <span class="ios-dropdown-icon">📋</span> Control de Asistencia
+          </a>
+        </div>
+      </div>
+
+      <!-- Botón de Modo Oscuro/Claro -->
+    <button class="ios-theme-btn" id="theme-toggle" aria-label="Cambiar tema">
+    🌙
+    </button>
+    </div>
+  </div>
+</nav>
+
+    <!-- Header / Hero Section -->
+    <header class="ios-header">
+        <div class="ios-hero-card">
+            <div>
+                <span class="ios-hero-badge">iniciodigital.net</span>
+                <h1 class="ios-hero-title">Herramientas para Docentes</h1>
+                <p class="ios-hero-description">
+                    Plataforma tecnológica integral diseñada para unificar herramientas docentes y evaluación pedagógica en un solo entorno interactivo.
+                </p>
+            </div>
+            
+            <!-- Cápsula del Perfil -->
+            <div class="ios-profile-capsule">
+                <img src="img/julianprofile.png" alt="Mtro. Julian Sadak Vergara Cruz" class="ios-profile-img" onerror="this.src='https://ui-avatars.com/api/?name=Julian+Vergara&background=B9975B&color=fff'">
+                <div>
+                    <div class="ios-profile-name">Mtro. Julian Sadak Vergara Cruz</div>
+                    <div class="ios-profile-role">Desarrollo e Innovación Educativa</div>
+                    <a href="mailto:jvergarac@cecytepuebla.edu.mx" class="ios-profile-email">jvergarac@cecytepuebla.edu.mx</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="ios-main">
+
+        <!-- Categoría 1: Herramientas del Docente -->
+        <section id="PracticaDocente" class="ios-section">
+            <div class="ios-section-header">
+                <div class="ios-section-icon">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div>
+                    <h2 class="ios-section-title">Herramientas para el Docente</h2>
+                    <p class="ios-section-subtitle">Acreditación en aula e instrumentos pedagógicos formativos.</p>
+                </div>
+            </div>
+
+            <div class="ios-grid">
+                <!-- Tarjeta: Pase de Lista -->
+                <a href="pase_lista.html" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-clipboard-user"></i>
+                            </div>
+                            <span class="ios-tag">Uso en Aula</span>
+                        </div>
+                        <h3 class="ios-card-title">Módulo: Pase de Lista</h3>
+                        <p class="ios-card-text">Aplicación interactiva para el control, registro y análisis de la asistencia escolar.</p>
+                    </div>
+                </a>
+
+                <!-- Tarjeta: Seguimiento de Estudiantes -->
+                <a href="seguimiento_entregas.html" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <span class="ios-tag">Uso en Aula</span>
+                        </div>
+                        <h3 class="ios-card-title">Seguimiento Académico</h3>
+                        <p class="ios-card-text">Configura tareas, asigna puntajes y recibe alertas sobre entregas para optimizar la evaluación.</p>
+                    </div>
+                </a>
+
+                <!-- Tarjeta: Tutoría -->
+                <a href="tutoria.html" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+                            <span class="ios-tag">Uso en Aula</span>
+                        </div>
+                        <h3 class="ios-card-title">Módulo: Tutoría</h3>
+                        <p class="ios-card-text">Centraliza diagnósticos tutoriales, identifica riesgos de deserción y genera reportes automáticos.</p>
+                    </div>
+                </a>
+
+                <!-- Tarjeta: Creador Rúbrica -->
+                <a href="plantilla_rubrica.html" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-table-cells"></i>
+                            </div>
+                            <span class="ios-tag">Uso en Aula</span>
+                        </div>
+                        <h3 class="ios-card-title">Creador: Rúbrica</h3>
+                        <p class="ios-card-text">Diseña rúbricas personalizadas definiendo niveles de desempeño y criterios formativos.</p>
+                    </div>
+                </a>
+
+                <!-- Tarjeta: Escala Estimativa -->
+                <a href="plantilla_estimativa.html" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <span class="ios-tag">Uso en Aula</span>
+                        </div>
+                        <h3 class="ios-card-title">Escala Estimativa</h3>
+                        <p class="ios-card-text">Mide el grado de intensidad con el que los estudiantes manifiestan aprendizajes o habilidades.</p>
+                    </div>
+                </a>
+
+                <!-- Tarjeta: Guía de Observación -->
+                <a href="plantilla_observacion.html" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-eye"></i>
+                            </div>
+                            <span class="ios-tag">Uso en Aula</span>
+                        </div>
+                        <h3 class="ios-card-title">Guía de Observación</h3>
+                        <p class="ios-card-text">Evalúa actividades prácticas mediante la observación directa con indicadores precisos.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Categoría 2: Plataformas Web -->
+        <section class="ios-section">
+            <div class="ios-section-header">
+                <div class="ios-section-icon">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div>
+                    <h2 class="ios-section-title">Plataformas Web y Entornos Virtuales</h2>
+                    <p class="ios-section-subtitle">Gestión de aprendizaje y simuladores de entorno profesional.</p>
+                </div>
+            </div>
+
+            <div class="ios-grid">
+                <!-- Tarjeta: Aprendamos en Cecyte -->
+                <a href="https://aprendamos.iniciodigital.net" target="_blank" rel="noopener noreferrer" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <span class="ios-tag">En Línea</span>
+                        </div>
+                        <h3 class="ios-card-title">Aprendamos en Cecyte (LMS)</h3>
+                        <p class="ios-card-text">Entorno virtual de aprendizaje diseñado para potenciar tu formación flexible y a tu propio ritmo.</p>
+                    </div>
+                </a>
+
+                <!-- Tarjeta: Dolibarr -->
+                <a href="https://demo.iniciodigital.net/htdocs/" target="_blank" rel="noopener noreferrer" class="ios-card ios-card-showcase">
+                    <div>
+                        <div class="ios-card-header">
+                            <div class="ios-card-icon">
+                                <i class="fa-solid fa-truck-ramp-box"></i>
+                            </div>
+                            <span class="ios-tag">En Línea</span>
+                        </div>
+                        <h3 class="ios-card-title">Dolibarr CRM | ERP</h3>
+                        <p class="ios-card-text">Simulador logístico que acerca la teoría empresarial a la práctica en plataformas ERP reales.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="ios-footer">
+        <div class="ios-footer-container">
+            <div>
+                <strong>Colegio de Estudios Científicos y Tecnológicos del Estado de Puebla</strong>
+                <div>Todos los derechos reservados.</div>
+            </div>
+            <div>
+                <span>Julian Sadak Vergara Cruz</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>
